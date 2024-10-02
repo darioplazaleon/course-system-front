@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
     <header className="w-full h-20 bg-gray-800 text-white flex items-center justify-center">
@@ -15,7 +17,9 @@ export default function Navbar() {
         </div>
         <div className="flex gap-4">
           <button className="border w-20 h-10">Log in</button>
-          <button className="w-20 h-10 bg-white text-black">Sign up</button>
+          <button className="w-20 h-10 bg-white text-black">
+            <Link href="/signup">Sign up</Link>
+          </button>
         </div>
       </nav>
     </header>
