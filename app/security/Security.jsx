@@ -1,0 +1,1 @@
+export const backUri = "http://localhost:8080";
