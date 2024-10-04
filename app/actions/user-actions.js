@@ -5,6 +5,7 @@ import { backUri } from "../security/Security";
 import { error } from "console";
 import { redirect, RedirectType } from "next/navigation";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 const userRegisterSchema = z.object({
   name: z
@@ -103,9 +104,9 @@ export const loginUser = async (prevState, formData) => {
       sameSite: "None",
       secure: true,
     });
+    revalidatePath("/");
   } catch (error) {
     return { error: error.message};
   }
-
   redirect("/")
 };
