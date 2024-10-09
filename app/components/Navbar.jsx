@@ -5,19 +5,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 export async function getUserInfo() {
   const cookieStore = cookies();
-  const token = cookieStore.get("token")
-  const tokenJwt = token.value
+  const token = cookieStore.get("token");
 
   if (token) {
+    const tokenJwt = token.value;
     let data = await fetch(`${backUri}/users/me`, {
       headers: {
         Authorization: `Bearer ${tokenJwt}`,
       },
     });
-
-    console.log("Requset headers:", {
-      Authorization: `Bearer ${tokenJwt}`,
-    })
 
     let user = await data.json();
     return user;
@@ -28,6 +24,8 @@ export async function getUserInfo() {
 
 export default async function Navbar() {
   const user = await getUserInfo();
+
+  const userRole = user ? user.role : null;
 
   return (
     <header className="w-full h-20 bg-gray-800 text-white flex items-center justify-center">
@@ -43,12 +41,27 @@ export default async function Navbar() {
             className="w-full rounded-lg pl-4 h-10"
           />
         </div>
-        <div className="flex gap-4">
+        <div className="h-full flex items-center justify-center gap-5">
+          {userRole === "INSTRUCTOR" ? (
+            <button className="w-24 h-12 bg-white text-black font-semibold">
+              <Link href="/create-course">Create course</Link>
+            </button>
+          ) : (
+            ""
+          )}
           {user ? (
-            <Avatar className="w-10 h-10">
-              <AvatarImage src="https://github.com/shadcn.png" className="rounded-full"/>
-              <AvatarFallback>DP</AvatarFallback>
-            </Avatar>
+            <>
+              <button className="w-24 h-12 bg-white text-black font-semibold">
+                My courses
+              </button>
+              <Avatar className="w-10 h-12">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  className="rounded-full"
+                />
+                <AvatarFallback>DP</AvatarFallback>
+              </Avatar>
+            </>
           ) : (
             <>
               <button className="border w-20 h-10">
